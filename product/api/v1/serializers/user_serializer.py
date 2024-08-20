@@ -12,6 +12,16 @@ class CustomUserSerializer(UserSerializer):
 
     class Meta:
         model = User
+        fields = (
+            'id',
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'is_active',
+            'is_staff',
+            'is_superuser',
+            'date_joined',)
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
@@ -22,5 +32,8 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = (
-            # TODO
+            'id',
+            'user',  # Ссылка на пользователя, который подписался
+            'course',  # Ссылка на курс, на который подписан пользователь
+            'created_at',  # Дата создания подписки
         )

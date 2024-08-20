@@ -17,8 +17,15 @@ class Course(models.Model):
         auto_now_add=False,
         verbose_name='Дата и время начала курса'
     )
-
-    # TODO
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Стоимость',
+    )
+    available = models.BooleanField(
+        default=True,
+        verbose_name='Доступен',
+    )
 
     class Meta:
         verbose_name = 'Курс'
@@ -31,7 +38,12 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     """Модель урока."""
-
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='lessons',
+        verbose_name='Курс',
+    )
     title = models.CharField(
         max_length=250,
         verbose_name='Название',
@@ -40,8 +52,6 @@ class Lesson(models.Model):
         max_length=250,
         verbose_name='Ссылка',
     )
-
-    # TODO
 
     class Meta:
         verbose_name = 'Урок'
@@ -54,10 +64,28 @@ class Lesson(models.Model):
 
 class Group(models.Model):
     """Модель группы."""
-
-    # TODO
+    title = models.CharField(
+        max_length=250,
+        verbose_name='Название',
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='groups',
+        verbose_name='Курс',
+    )
+    number = models.PositiveIntegerField(
+        verbose_name='Номер группы',
+    )
+    max_students = models.PositiveIntegerField(
+        default=30,
+        verbose_name='Максимальное количество студентов',
+    )
 
     class Meta:
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
         ordering = ('-id',)
+
+    def __str__(self):
+        return f'Группа {self.number} курса {self.course.title}'

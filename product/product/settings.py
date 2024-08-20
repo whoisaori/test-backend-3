@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'users.apps.UsersConfig',
     'drf_spectacular',
+    'product.apps.ProductConfig'
 ]
 
 MIDDLEWARE = [
